@@ -15,45 +15,26 @@ import os
 import subprocess
 from pathlib import Path
 
-STANDARD_GITIGNORE = """# Binaries for programs and plugins
-*.exe
-*.exe~
-*.dll
-*.so
-*.dylib
-
-# Test binary, built with `go test -c`
-*.test
-
-# Output of the go coverage tool, specifically when used with LiteIDE
-*.out
-
-# Dependency directories (remove the comment below to include it)
-# vendor/
-"""
-
-STANDARD_MAKEFILE = """.PHONY: all build test clean
-
-APP_NAME := {app_name}
-
-all: build test
-
-build:
-	go build -o bin/$(APP_NAME) ./cmd/$(APP_NAME)
-
-test:
-	go test ./...
-
-clean:
-	rm -rf bin/
-"""
-
 MAIN_GO = """package main
 
-import "fmt"
+import (
+    "context"
+    "log/slog"
+    "os"
+)
 
 func main() {
-	fmt.Println("Hello, World!")
+    ctx := context.Background()
+    if err := run(ctx); err != nil {
+        slog.Error("shutting down", "err", err)
+        os.Exit(1)
+    }
+}
+
+func run(ctx context.Context) error {
+    // TODO: Add application logic here
+    _ = ctx
+    return nil
 }
 """
 
@@ -67,15 +48,11 @@ def init_go_project(project_name, path):
     print(f"🔨 Scaffolding Go project '{project_name}' at {project_dir}...")
     
     try:
-        # Create Directories
-        (project_dir / 'cmd' / project_name).mkdir(parents=True, exist_ok=True)
-        (project_dir / 'internal').mkdir(exist_ok=True)
-        (project_dir / 'pkg').mkdir(exist_ok=True)
-        
+        # Create Project Directory
+        project_dir.mkdir(parents=True, exist_ok=True)
+
         # Create Files
-        (project_dir / '.gitignore').write_text(STANDARD_GITIGNORE)
-        (project_dir / 'Makefile').write_text(STANDARD_MAKEFILE.format(app_name=project_name))
-        (project_dir / 'cmd' / project_name / 'main.go').write_text(MAIN_GO)
+        (project_dir / 'main.go').write_text(MAIN_GO)
 
         # Initialize Go Module
         subprocess.run(['go', 'mod', 'init', project_name], cwd=project_dir, check=True)

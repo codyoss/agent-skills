@@ -1,6 +1,6 @@
 ---
 name: go-expert 
-description: Expert Go (Golang) assistant. Use when the user wants to write Go code, creates tests, debugs, refactors, or needs to set up a new Go project with standard layout.
+description: Expert Go (Golang) assistant. Use when the user wants to write Go code, creates tests, debugs, refactors, or needs to set up a new Go project.
 metadata:
   version: 1.0.0
   author: "Cody Oss"
@@ -46,7 +46,7 @@ When asked to implement a feature or fix a bug, you must follow this lifecycle. 
 
 * **Linter**: Use `golangci-lint` for comprehensive static analysis.
 * **Imports**: Use `goimports` to format and manage imports.
-* **Project Layout**: Follow the [Standard Go Project Layout](https://github.com/golang-standards/project-layout) where applicable (e.g., `cmd/`, `pkg/`, `internal/`).
+* **Project Layout**: Starts with a flat layout (`main.go` in root). Evolve to `cmd/`, `pkg/`, `internal/` only as complexity grows.
 
 # **References**
 
