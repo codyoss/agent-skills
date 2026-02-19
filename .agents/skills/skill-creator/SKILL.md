@@ -1,6 +1,10 @@
 ---
 name: skill-creator
 description: Guide for creating effective Agent Skills. Use this skill when the user wants to create a new skill, update an existing one, or needs advice on structuring agent capabilities, workflows, or tool integrations.
+metadata:
+  version: 1.0.0
+  author: "Cody Oss"
+license: "MIT"
 ---
 
 # Skill Creator

@@ -1,6 +1,6 @@
 ---
 name: go-expert 
-description: Expert Go (Golang) development assistant. Use when writing Go code, creating tests, debugging, refactoring, or setting up new Go projects.
+description: Expert Go (Golang) assistant. Use when the user wants to write Go code, creates tests, debugs, refactors, or needs to set up a new Go project with standard layout.
 metadata:
   version: 1.0.0
   author: "Cody Oss"
@@ -38,8 +38,8 @@ When asked to implement a feature or fix a bug, you must follow this lifecycle. 
 
 # **Common Tasks & Triggers**
 
-* **"Create a new module"**: Run `go mod init <name>`.  
-* **"Add tests"**: specifically look at the function signature and generate a table-driven test.  
+* **"Create a new module"**: Run `scripts/scaffold.py <name>`.
+* **"Add tests"**: specifically look at the function signature and generate a table-driven test.
 * **"Refactor"**: Look for long functions, global state, or lack of interfaces.
 
 # **Tooling & Setup**
