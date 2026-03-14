@@ -1,19 +1,24 @@
 ---
 name: skill-creator
-description: Guide for creating effective Agent Skills. Use this skill when the user wants to create a new skill, update an existing one, or needs advice on structuring agent capabilities, workflows, or tool integrations.
+description: >
+  Guide for creating, updating, and validating AI agent skills.
+  Use when building new skills, updateing existing skills, or reviewing skills.
+  Don't use for coding.
 metadata:
-  version: 1.0.0
+  version: 1.1.0
   author: "Cody Oss"
 license: "MIT"
 ---
 
 # Skill Creator
 
-This skill provides guidance for creating effective Agent Skills.
+This skill provides guidance for creating and maintaining effective Agent Skills.
 
 ## About Skills
 
-Skills are modular, self-contained packages that extend an agent's capabilities by providing specialized knowledge, workflows, and tools. They act as "onboarding guides" for specific domains or tasks, transforming a general-purpose model into a specialized agent equipped with procedural knowledge.
+Skills are modular, self-contained packages that extend an agent's capabilities by providing specialized knowledge,
+workflows, and tools. They act as "onboarding guides" for specific domains or tasks, transforming a general-purpose
+model into a specialized agent equipped with procedural knowledge.
 
 ### What Skills Provide
 
@@ -25,9 +30,11 @@ Skills are modular, self-contained packages that extend an agent's capabilities 
 ## Core Principles
 
 ### Concise is Key
-The context window is a limited resource. Skills share this window with the system prompt, conversation history, and the user's request.
+The context window is a limited resource. Skills share this window with the system prompt, conversation history, and the
+user's request.
 
-**Default assumption: The agent is already capable.** Only add context the agent doesn't already have. Challenge every piece of information: "Does the agent really need this explanation?"
+**Default assumption: The agent is already capable.** Only add context the agent doesn't already have. Challenge every
+piece of information: "Does the agent really need this explanation?"
 
 ### Set Appropriate Degrees of Freedom
 Match the level of specificity to the task's fragility:
@@ -36,16 +43,16 @@ Match the level of specificity to the task's fragility:
 * **Medium freedom (pseudocode)**: Use when a preferred pattern exists but variation is acceptable.
 * **Low freedom (specific scripts)**: Use when operations are fragile, error-prone, or strict consistency is required.
 
-### Anatomy of a Skill
+## Anatomy
 
-Every skill consists of a directory containing a required `SKILL.md` file and optional bundled resources:
+Every skill has a required `SKILL.md` file and optional bundled resources:
 
 ```text
 skill-name/
-├── SKILL.md          # (Required) Instructions and metadata
-├── scripts/          # (Optional) Executable code (Python, Bash, etc.)
-├── references/       # (Optional) Documentation loaded on demand
-└── assets/           # (Optional) Static files (templates, images, fonts)
+├── SKILL.md          # Required: Instructions and metadata
+├── scripts/          # Executable code (Python, Bash, etc.)
+├── references/       # Documentation loaded on demand
+└── assets/           # Static files (templates, images, fonts)
 ```
 
 ### SKILL.md (Required)
@@ -55,6 +62,22 @@ The core file containing:
 * **Frontmatter** (YAML): Required `name` and `description` fields.
     *   **Description is Critical**: This is the *only* semantic signal the agent uses to decide whether to load your skill. It must clearly define the **User Intent** (what they want) and **Context** (when to use it).
 * **Body** (Markdown): Instructions and guidance. Loaded only after the skill is triggered.
+
+#### Naming Conventions
+* **Lowercase kebab-case**: Use `task-oriented-name` (e.g., `api-migration-expert`).
+* **Action-oriented**: Start with a verb or a clear role (e.g., `ui-component-builder`, `refactoring-go`).
+* **Keep it short**: Aim for 2-4 words.
+
+#### Writing Effective Descriptions
+The description is the **only** signal used for skill discovery. It must be precise to ensure it triggers when needed and stays dormant otherwise.
+
+*   **Specify Intent**: Use "Use when..." to define the primary trigger.
+*   **Define Scope**: Mention specific technologies, languages, or workflows (e.g., "Use when refactoring Go code for performance").
+*   **Establish Negative Constraints**: Use "Don't use for..." to prevent false positives for generic requests.
+*   **Avoid Generic Phrases**: Words like "helps with" or "assistant for" are too broad. Be specific about the *transformation* or *output*.
+
+**Example:**
+> Use when setting up a new React project with TypeScript using the Vite template. Includes scaffolding scripts and folder structure guidelines. Don't use for general React debugging.
 
 ### Bundled Resources (Optional)
 
@@ -83,9 +106,12 @@ python3 scripts/validate_skill.py <skill-folder>
 
 Structure your skill to minimize token usage:
 
-1. **Metadata**: Only name and description are loaded initially.
-2. **Instructions**: The SKILL.md body is loaded upon activation.
-3. **Resources**: Files in scripts/ or references/ are accessed only if the agent decides they are necessary for the specific turn.
+1. **Metadata**: Only name and description are loaded initially (100 words max).
+2. **Instructions**: The SKILL.md body is loaded upon activation (500 lines max).
+3. **Resources**: Files in scripts/ or references/ are accessed only if the agent decides they are necessary for the specific turn (unlimited length).
+
+> [!IMPORTANT]
+> To enable discovery, all bundled scripts and references MUST be explicitly mentioned in the `SKILL.md` body. If there are a lot of scripts or references, consider using a Table of Contents at the end of the body.
 
 ### Common Pitfalls
 
