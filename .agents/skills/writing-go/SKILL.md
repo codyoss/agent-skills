@@ -5,7 +5,7 @@ description: >
   Use when implementing Go features, scaffolding modules, or refactoring for idiomatic error handling and concurrency. 
   Don't use for non-Go code or general programming concepts.
 metadata:
-  version: 1.1.0
+  version: 1.2.0
   author: "Cody Oss"
 license: "MIT"
 ---
@@ -40,6 +40,7 @@ When asked to implement a feature or fix a bug, you must follow this lifecycle. 
 > * Return errors as the last return value.
 > * Check if `err != nil` immediately.
 > * Use `%w` to wrap errors when adding context.
+> * **Never ignore go errors (`_ = ...`), even in tests.** The only exception is when using `defer`.
 
 > [!NOTE]
 > **Formatting & Concurrency**:
