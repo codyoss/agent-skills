@@ -157,14 +157,23 @@ Run the validation script to catch basic formatting and spec issues early:
 python3 scripts/validate_skill.py <skill-folder>
 ```
 
-### Step 6: Iterate & Forward-Test
-Test the skill on realistic tasks using subagents. Keep iterating on descriptions, instruction clarity, and resources until the validation is robust.
+### Step 6: Automated Evaluation
+Set up an evaluation dataset and run the evaluation script to test trigger accuracy and task execution:
+1. **Trigger Evals**: Create a JSON list containing queries with `should_trigger` boolean flags (see [schemas.md](references/schemas.md)).
+2. **Task Evals**: Create a JSON dictionary containing prompts and expectations (see [schemas.md](references/schemas.md)).
+3. **Run Evals**:
+   ```bash
+   python3 scripts/run_eval.py --eval-set <path-to-json> --skill-path <path-to-skill>
+   ```
+
+### Step 7: Iterate & Forward-Test
+Keep iterating on the skill's instructions, description, and scripts based on the evaluation pass rate until they are robust. Perform manual interactive checks where needed using subagents.
 
 ---
 
 ## Forward-Testing Methodology
 
-To forward-test complex skills, stress test them by launching subagents (via `invoke_subagent`) with minimal context:
+To forward-test complex skills manually, stress test them by launching subagents (via `invoke_subagent`) with minimal context:
 
 1. **Anti-Contamination**: Subagents should *not* know they are testing a skill. They should be treated as an agent asked to perform a real task.
    * **Good Prompt**: `Use skill-name at /path/to/skill to resolve task X`
