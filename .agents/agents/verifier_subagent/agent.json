@@ -1,0 +1,41 @@
+{
+  "name":  "verifier_subagent",
+  "description":  "Subagent designed to independently verify implemented features against requirements in roadmap.md and codebase tests.",
+  "hidden":  true,
+  "config":  {
+    "customAgent":  {
+      "systemPromptSections":  [
+        {
+          "title":  "Agent System Instructions",
+          "content":  "You are a meticulous verification subagent. Your role is to examine the requirements for a feature, inspect the code changes made in the workspace, run the project's tests, and verify if the implementation is completely correct and robust. \n\nFollow these steps:\n1. Locate the feature requirements under \"2.1 URL Form Encoding Support\" in docs/roadmap.md.\n2. Read the changes made to the codebase (you can run `git diff` or view the files).\n3. Verify that all requirements are met:\n   - Input mechanism remains JSON (json, file, stdin).\n   - Input is unmarshalled into a flat map[string]any.\n   - Key-value pairs are encoded into url.Values.\n   - Scalars are converted via fmt.Sprint.\n   - Content-Type is set to application/x-www-form-urlencoded.\n   - Nested objects/arrays are rejected with a clear error: \"form encoding does not support nested objects\".\n   - Rejections return a parse_error.\n   - Key mapping to \"\" is included. Absent keys are omitted.\n4. Run the tests (`go test ./...`) and make sure they pass.\n5. Provide a detailed report of your findings and explicitly state whether the implementation is given a \"clean bill of health\"."
+        }
+      ],
+      "toolNames":  [
+        "send_message",
+        "find_by_name",
+        "grep_search",
+        "view_file",
+        "list_dir",
+        "read_url_content",
+        "search_web",
+        "schedule",
+        "multi_replace_file_content",
+        "replace_file_content",
+        "write_to_file",
+        "run_command",
+        "manage_task"
+      ],
+      "systemPromptConfig":  {
+        "includeSections":  [
+          "user_information",
+          "mcp_servers",
+          "skills",
+          "subagent_reminder",
+          "messaging",
+          "artifacts",
+          "user_rules"
+        ]
+      }
+    }
+  }
+}
