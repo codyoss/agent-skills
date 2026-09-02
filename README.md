@@ -4,18 +4,17 @@ This repository contains custom agents, skills, and plugins for the Antigravity 
 
 ## Directory Structure
 
-- **`.agents/agents/`**: Definitions and configurations for custom agents.
-  - `completion_implementer`: Helper agent for implementing code completion features.
-  - `mcp_implementer`: Assistant for building Model Context Protocol (MCP) integrations.
-  - `milestone_verifier`: Handles verifying milestones during task execution.
-  - `verifier_subagent`: Subagent for automated code execution and test verification.
-- **`.agents/skills/`**: Instruction manuals and guidelines that extend agent capabilities (e.g., Go standards, commits, TDD loops).
-  - `agent-creator`: Guide for creating and managing custom agent profiles.
-  - `conventional-commits`: Git commit formatting standards.
-  - `design-review`: Templates and methodology for reviewing design docs.
-  - `skill-creator`: Guidelines for building and updating agent skills.
-  - `subagent-orchestration`: Subagent patterns for Test-Driven Development (TDD).
-  - `writing-go`: Best practices and standard guidelines for writing Go.
+- **`.agents/skills/`**: Instruction manuals and guidelines that extend agent capabilities:
+  - `adversarial-testing`: Methodology and patterns for stress testing, race condition detection, and challenger verification.
+  - `agent-creator`: Guide for creating, validating, and managing custom agent profiles (`agent.json`).
+  - `conventional-commits`: Conventional Commits 1.0.0 formatting standards and git commit review.
+  - `design-review`: Rigorous 4-pass methodology and checklist for reviewing technical design documents.
+  - `pr-feedback-resolver`: Automated resolution of PR review feedback and CI/CD failures via `gh` CLI.
+  - `skill-creator`: Guidelines and automated evaluation harness for authoring and testing agent skills.
+  - `subagent-orchestration`: Multi-subagent coordination patterns for Test-Driven Development (TDD).
+  - `writing-go`: Best practices, table-driven testing patterns, and scaffolding for Go.
+  - `writing-rust`: Idiomatic Rust practices, `thiserror`/`anyhow` error handling, async Tokio, and Tauri v2 patterns.
+- **`.agents/agents/`**: Optional custom agent profiles (`agent.json`) for specialized subagent definitions.
 - **`plugins/`**: Custom CLI/shell integration scripts.
   - `statusline.sh`: A rich terminal statusline plugin displaying tool status, models, token counts, and sandbox states.
 - **`scripts/`**: Automation scripts for repository setup and management.

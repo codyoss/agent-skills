@@ -33,7 +33,7 @@ When asked to implement a feature or fix a bug, you must follow this lifecycle. 
 ## Critical Rules
 
 > [!IMPORTANT]
-> **Testing is Priority**: Never generate code without a corresponding `_test.go` file. All logic tests MUST use the table-driven pattern (see [table-driven-tests.md](file:///home/codyoss/workspace/agent-skills/.agents/skills/writting-go/references/table-driven-tests.md)).
+> **Testing is Priority**: Never generate code without a corresponding `_test.go` file. All logic tests MUST use the table-driven pattern (see [references/table-driven-tests.md](references/table-driven-tests.md)).
 
 > [!TIP]
 > **Error Handling**: 
@@ -51,7 +51,7 @@ When asked to implement a feature or fix a bug, you must follow this lifecycle. 
 
 ## Common Tasks & Triggers
 
-* **"Create a new module"**: Run the [scaffold.py](file:///home/codyoss/workspace/agent-skills/.agents/skills/writing-go/scripts/scaffold.py) script located in this skill folder.
+* **"Create a new module"**: Run the [scripts/scaffold.py](scripts/scaffold.py) script located in this skill folder.
 * **"Add tests"**: Specifically look at the function signature and generate a table-driven test.
 * **"Refactor"**: Look for long functions, global state, or lack of interfaces.
 
