@@ -46,7 +46,7 @@ Save as `<skill-folder>/evals/task_eval.json` (or any path).
       "expectations": [
         "Invoice",
         "Total Due",
-        "|"
+        { "regex": "^\\|.*\\|\\s*$" }
       ]
     }
   ]
@@ -59,4 +59,10 @@ Save as `<skill-folder>/evals/task_eval.json` (or any path).
   * `id` (integer): A unique identifier for the test case.
   * `prompt` (string): The prompt to execute.
   * `expected_output` (string): Human-readable success criteria description.
-  * `expectations` (array of strings): A list of substrings that MUST be present in the output for the test case to pass.
+  * `expectations` (array): Checks against the agent's final output; all must hold for the test case to pass. Each item is either:
+    * a string: a case-insensitive substring that must be present, or
+    * `{"regex": "..."}`: a case-insensitive, multiline regex that must match.
+
+    Prefer specific expectations. A bare `"|"` passes on any markdown at all; a regex anchored to the expected structure does not.
+
+A task eval also fails if the skill was not triggered or the agent run errored.
