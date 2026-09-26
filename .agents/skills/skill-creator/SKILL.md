@@ -1,11 +1,12 @@
 ---
 name: skill-creator
 description: >
-  Guide for creating, updating, and validating AI agent skills.
-  Use when building new skills, updating existing skills, or reviewing skills.
-  Don't use for coding.
+  Guide for creating, updating, reviewing, and evaluating agent skills (SKILL.md packages).
+  Use when building a new skill, editing a SKILL.md or its bundled scripts/references,
+  fixing a skill that triggers too often or not at all, or writing and running trigger/task evals.
+  Don't use for general coding tasks unrelated to a skill.
 metadata:
-  version: 1.2.0
+  version: 1.3.0
   author: "Cody Oss"
 license: "MIT"
 ---
@@ -13,17 +14,6 @@ license: "MIT"
 # Skill Creator
 
 This skill provides guidance for creating and maintaining effective Agent Skills.
-
-## About Skills
-
-Skills are modular, self-contained packages that extend an agent's capabilities by providing specialized knowledge, workflows, and tools. They act as "onboarding guides" for specific domains or tasks, transforming a general-purpose model into a specialized agent equipped with procedural knowledge.
-
-### What Skills Provide
-
-1. **Specialized workflows**: Multi-step procedures for specific domains.
-2. **Tool integrations**: Instructions for working with specific file formats or APIs.
-3. **Domain expertise**: Company-specific knowledge, schemas, and business logic.
-4. **Bundled resources**: Scripts, references, and assets for complex tasks.
 
 ---
 
@@ -124,6 +114,8 @@ For simple edits, modify the XML directly.
 **For tracked changes**: See [REDLINING.md](references/REDLINING.md)
 ```
 
+For workflow and output patterns to use inside the `SKILL.md` body (sequential, conditional, template, examples), see [design_patterns.md](references/design_patterns.md).
+
 ---
 
 ## Skill Creation Process
@@ -131,7 +123,7 @@ For simple edits, modify the XML directly.
 Follow these steps in order when building or updating a skill:
 
 ### Step 1: Understand the Goal
-Identify the specific user requests the skill should handle. Ask the user concrete clarifying questions, such as:
+Identify the specific user requests the skill should handle. If the request doesn't already make these clear, ask concrete clarifying questions, such as:
 * "What functionality should the skill support? Can you give examples of how it will be used?"
 * "What would a user say that should trigger this skill?"
 * "Where should I create this skill? (Default is local `.agents/skills/`)"
@@ -152,19 +144,20 @@ python3 scripts/init_skill.py <skill-name> --path <output-path> [--resources scr
 Implement the logic in `SKILL.md` and populate resource folders. Use imperative mood in instructions ("Do this", "Check that"). Testing scripts by running them is required.
 
 ### Step 5: Validate
-Run the validation script to catch basic formatting and spec issues early:
+Run the validation script (requires PyYAML) to catch spec issues early: frontmatter, name/folder match, body length, dead links, and bundled files that `SKILL.md` never mentions:
 ```bash
 python3 scripts/validate_skill.py <skill-folder>
 ```
 
 ### Step 6: Automated Evaluation
 Set up an evaluation dataset and run the evaluation script to test trigger accuracy and task execution:
-1. **Trigger Evals**: Create a JSON list containing queries with `should_trigger` boolean flags (see [schemas.md](references/schemas.md)).
-2. **Task Evals**: Create a JSON dictionary containing prompts and expectations (see [schemas.md](references/schemas.md)).
-3. **Run Evals**:
+1. **Trigger Evals**: Create a JSON list containing queries with `should_trigger` boolean flags (see [schemas.md](references/schemas.md)). Include near-miss negatives (requests that share keywords but belong to another skill), not just obviously unrelated ones.
+2. **Task Evals**: Create a JSON dictionary containing prompts and expectations (see [schemas.md](references/schemas.md)). A task eval only passes if the skill was actually triggered.
+3. **Run Evals**: The skill must be installed globally (`scripts/link_customizations.sh link` at the repo root), because every run executes in a fresh temp directory so task evals cannot modify your working tree.
    ```bash
-   python3 scripts/run_eval.py --eval-set <path-to-json> --skill-path <path-to-skill>
+   python3 scripts/run_eval.py --eval-set <path-to-json> --skill-path <path-to-skill> [--runs-per-query 3]
    ```
+   Triggering is stochastic: each trigger query runs `--runs-per-query` times (default 3) and passes by majority. Runs that error count as failures. If many runs error, fix the harness before trusting the pass rate.
 
 ### Step 7: Iterate & Forward-Test
 Keep iterating on the skill's instructions, description, and scripts based on the evaluation pass rate until they are robust. Perform manual interactive checks where needed using subagents.
