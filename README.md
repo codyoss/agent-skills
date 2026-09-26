@@ -6,14 +6,10 @@ This repository contains custom agents, skills, and plugins for the Antigravity 
 
 - **`.agents/skills/`**: Instruction manuals and guidelines that extend agent capabilities:
   - `adversarial-testing`: Methodology and patterns for stress testing, race condition detection, and challenger verification.
-  - `agent-creator`: Guide for creating, validating, and managing custom agent profiles (`agent.json`).
   - `conventional-commits`: Conventional Commits 1.0.0 formatting standards and git commit review.
   - `design-review`: Rigorous 4-pass methodology and checklist for reviewing technical design documents.
   - `pr-feedback-resolver`: Automated resolution of PR review feedback and CI/CD failures via `gh` CLI.
   - `skill-creator`: Guidelines and automated evaluation harness for authoring and testing agent skills.
-  - `subagent-orchestration`: Multi-subagent coordination patterns for Test-Driven Development (TDD).
-  - `writing-go`: Best practices, table-driven testing patterns, and scaffolding for Go.
-  - `writing-rust`: Idiomatic Rust practices, `thiserror`/`anyhow` error handling, async Tokio, and Tauri v2 patterns.
 - **`.agents/agents/`**: Optional custom agent profiles (`agent.json`) for specialized subagent definitions.
 - **`plugins/`**: Custom CLI/shell integration scripts.
   - `statusline.sh`: A rich terminal statusline plugin displaying tool status, models, token counts, and sandbox states.
