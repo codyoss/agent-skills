@@ -67,6 +67,45 @@ Use this checklist during Pass 2 (line-by-line challenge) to ensure every concer
 - [ ] Is priority order defined for any "pick one of these inputs" scenarios?
 - [ ] Are concurrency concerns addressed where applicable? (goroutines, pipe readers/writers)
 
+## Security
+
+- [ ] Are trust boundaries identified? (What input is untrusted, and where is it validated?)
+- [ ] How are secrets/credentials sourced, stored, and kept out of logs and error messages?
+- [ ] Is authentication and authorization defined for every entry point, not just the main one?
+- [ ] Are injection surfaces handled? (shell commands, SQL, file paths from user input, template rendering)
+- [ ] Is the principle of least privilege applied to service accounts, tokens, and file permissions?
+
+## Reliability & Failure Modes
+
+- [ ] What happens when each external dependency (DB, API, queue, filesystem) is slow or down?
+- [ ] Are timeouts, retries, and backoff specified, with limits? Are retried operations idempotent?
+- [ ] Is partial failure handled? (Half-written files, half-applied batches, crashed mid-transaction)
+- [ ] Is there a single point of failure the design accepts implicitly?
+
+## Performance & Scale
+
+- [ ] Are expected load and data sizes stated? (requests/sec, rows, payload size, number of users)
+- [ ] Are there unbounded operations? (Loading everything into memory, N+1 queries, unpaginated lists)
+- [ ] Are latency or resource budgets stated where they matter?
+
+## Observability
+
+- [ ] What is logged, at what level, and in what format?
+- [ ] Are the metrics or signals that detect this system failing in production defined?
+- [ ] Can a failure be traced back to its input/request? (request IDs, correlation IDs)
+
+## Compatibility & Migration
+
+- [ ] Does the change break existing users, APIs, config files, or stored data? Is that explicit?
+- [ ] Is there a data/schema migration plan, and is it reversible?
+- [ ] Is the rollout plan defined? (feature flag, staged rollout, and how to roll back)
+
+## Testing Strategy
+
+- [ ] Is it stated how each component will be tested? (unit, integration, end-to-end)
+- [ ] Are external dependencies mockable/injectable in the proposed structure?
+- [ ] Are the hardest-to-test behaviors (concurrency, failure paths) called out with a plan?
+
 ## Scope & Deferral
 
 - [ ] Are deferred features explicitly marked as "V2" or "out of scope for V1"?

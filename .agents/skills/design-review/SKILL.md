@@ -36,6 +36,8 @@ Before writing a single critique line:
    - What it actually does (don't assume from the name).
    - Whether existing deps in the list already cover that job.
    - Whether the stdlib could replace it.
+
+   Prefer primary sources: the package docs (web search if available), or local sources when not (module/package cache, `go doc`, `pydoc`, `node_modules/<pkg>/README.md`, `cargo doc`). If you can't verify a claim, mark the finding ⚠️ "unverified" rather than asserting it.
 3. **Identify the execution flow** and trace through it mentally. Look for ordering constraints that could break the design (e.g., needing data before a framework is initialized).
 
 ### Pass 2 — Line-by-Line Challenge
@@ -59,6 +61,10 @@ For every dependency listed:
 
 See `references/dependency-audit.md` for heuristics and common patterns.
 
+### Checkpoint — Stop for Decisions
+
+Present the critique (see Output Format) and **STOP**. Do not edit the design document yet. Ask the user to accept, reject, or modify each ⚠️ and ❌ finding. Only continue to Pass 4 with the findings they accepted.
+
 ### Pass 4 — Implementation Readiness Gap Fill
 
 After challenges are agreed upon, upgrade the document to be implementation-ready:
@@ -79,7 +85,7 @@ A document is **implementation-ready** when a competent agent could produce corr
 
 ### Critique Artifact
 
-Write a markdown critique document with:
+Write the critique to a file next to the design doc named `<doc-name>.review.md` (unless the user asks for it inline), using:
 
 ```markdown
 ## Section N: <Name>
@@ -89,7 +95,7 @@ Write a markdown critique document with:
 ❌ **<Claim>** — Pushback + required change.
 ```
 
-Group by original document section. End with a **Summary Table** of all recommended changes ordered by priority (Critical → High → Medium → Low).
+Group by original document section. Use ✅ only for non-obvious decisions worth affirming (e.g., a tradeoff the author might be tempted to reverse); don't list a ✅ for every line. Collapse minor wording nits into a single "Nits" bullet per section. End with a **Summary Table** of all recommended changes ordered by priority (Critical → High → Medium → Low).
 
 ### Updating the Document
 
@@ -101,3 +107,5 @@ After the user agrees to findings, apply all changes to the original document in
 
 - [references/review-checklist.md](references/review-checklist.md) — Section-by-section checklist for comprehensive design review coverage.
 - [references/dependency-audit.md](references/dependency-audit.md) — Heuristics for auditing dependency lists.
+
+Examples in the references use Go because it is a common target; apply the equivalent stdlib and ecosystem conventions for the document's language.

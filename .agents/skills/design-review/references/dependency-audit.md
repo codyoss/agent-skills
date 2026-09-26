@@ -31,15 +31,17 @@ Before accepting a dep, check whether any already-listed dependency provides the
 
 ### 3. Can the stdlib do it?
 
-Before accepting any external dependency, ask if the standard library covers the need. Prefer stdlib for:
+Before accepting any external dependency, ask if the standard library covers the need. Commonly covered by stdlib:
 
-- HTTP client (`net/http`)
-- JSON encoding/decoding (`encoding/json`)
-- File I/O (`os`, `io`, `bufio`)
-- URL construction and encoding (`net/url`)
-- String manipulation (`strings`, `regexp`)
-- Multipart form data (`mime/multipart`)
-- YAML is a common exception — Go stdlib has no YAML support
+| Need | Go | Python | Node.js | Rust |
+|---|---|---|---|---|
+| HTTP client | `net/http` | `urllib.request` (most projects still add `requests`/`httpx`) | `fetch` (Node 18+) | ❌ needs `reqwest`/`ureq` |
+| JSON | `encoding/json` | `json` | `JSON` | ❌ needs `serde_json` |
+| File I/O / paths | `os`, `io`, `path/filepath` | `pathlib`, `shutil` | `fs`, `path` | `std::fs`, `std::path` |
+| URL encoding | `net/url` | `urllib.parse` | `URL`, `URLSearchParams` | ❌ needs `url` |
+| CLI flags | `flag` (basic) | `argparse` | `util.parseArgs` (Node 18.3+) | ❌ needs `clap` |
+| Structured logging | `log/slog` | `logging` | ❌ (console only) | ❌ needs `tracing`/`log` |
+| YAML | ❌ | ❌ | ❌ | ❌ |
 
 ### 4. Is it maintained?
 
@@ -63,9 +65,9 @@ A dep with 10+ transitive dependencies adds supply-chain risk and build bloat. P
 |---|---|
 | Dep is unused in the design | ❌ Remove |
 | Two deps cover the same concern | ❌ Remove the less capable one |
-| Stdlib covers the need | ❌ Remove; use stdlib |
+| Stdlib covers the need directly (same API surface, no glue code) | ❌ Remove; use stdlib |
+| Stdlib covers it with ~20 lines of glue code | ⚠️ Consider removing; weigh against the dep's maintenance and supply-chain cost |
 | Dep has no maintained alternative and provides real value | ✅ Keep |
-| Dep could be replaced by stdlib with ~20 lines of code | ⚠️ Consider removing |
 | Dep is listed but its role is vague ("might be useful") | ⚠️ Require a concrete use case or remove |
 
 ---
