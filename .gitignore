@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+eval_workspaces/
+eval_results.json
