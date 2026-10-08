@@ -2,3 +2,12 @@ __pycache__/
 *.pyc
 eval_workspaces/
 eval_results.json
+
+# Local hardware configs and outputs
+printer.json
+*.local.json
+local_config.json
+*.stl
+*.gcode
+*.step
+

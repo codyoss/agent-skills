@@ -5,6 +5,8 @@ This repository contains custom agents, skills, and plugins for the Antigravity 
 ## Directory Structure
 
 - **`.agents/skills/`**: Instruction manuals and guidelines that extend agent capabilities:
+  - `3d-modeling`: Programmatic CAD modeling with OpenSCAD, build123d, and headless Blender scripting with automated preview rendering.
+  - `3d-printer`: Network discovery, telemetry, OrcaSlicer CLI slicing, preflight safety verification, and Moonraker control for Klipper 3D printers.
   - `adversarial-testing`: Methodology and patterns for stress testing, race condition detection, and challenger verification.
   - `conventional-commits`: Conventional Commits 1.0.0 formatting standards and git commit review.
   - `design-review`: Rigorous 4-pass methodology and checklist for reviewing technical design documents.
